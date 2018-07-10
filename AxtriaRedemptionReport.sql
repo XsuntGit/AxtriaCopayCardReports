@@ -41,7 +41,7 @@ Axtria_dev.DBO.tblImportTerrHierarchy
 Axtria_dev.DBO.tblImportTarget
 Axtria_dev.DBO.tblImportAmaPDRP
 Axtria_dev.DBO.tblImportRepTerr
-Axtria_dev.DBO.tblImportRepTerr_Test	--internal test
+Axtria_dev.DBO.inINBURoster_Test	--internal test
 Axtria_dev.DBO.inINBURoster		--inINBURoster_20180612
 
 Output:
@@ -2004,15 +2004,19 @@ USE Axtria_dev
 GO
 ALTER VIEW V_RepRoster
 AS
-SELECT TERRITORY_NUMBER AS Geo, STAFF_EMAIL AS Email
-FROM Axtria_dev.DBO.tblImportRepTerr_Test
-WHERE PRIMARY_TERRITORY = 'Y' AND IS_ACTIVE = 'Y'
-AND TERRITORY_NUMBER IN (SELECT Geo FROM Enbrel_GEOlevelreport.DBO.V_OutputGeo)
---SELECT [Territory #] AS Geo, Email
+SELECT [Territory #] AS Geo, [Territory Description] AS GeoName, Email
+FROM Axtria_dev.DBO.inINBURoster_Test
+WHERE [Territory #] IN (SELECT Geo FROM Enbrel_GEOlevelreport.DBO.V_OutputGeo)
+--SELECT [Territory #] AS Geo, [Territory Description] AS GeoName, Email
 --FROM Axtria_dev.DBO.inINBURoster
 --WHERE Flag = 'PRI' AND FFName IN ('INBU APEX SF','INBU PINNACLE SF','INBU SUMMIT SF')
 --AND [Territory #] IN (SELECT Geo FROM Enbrel_GEOlevelreport.DBO.V_OutputGeo)
 GO
+--SELECT TERRITORY_NUMBER AS Geo, STAFF_EMAIL AS Email
+--FROM Axtria_dev.DBO.tblImportRepTerr_Test
+--WHERE PRIMARY_TERRITORY = 'Y' AND IS_ACTIVE = 'Y'
+--AND TERRITORY_NUMBER IN (SELECT Geo FROM Enbrel_GEOlevelreport.DBO.V_OutputGeo)
+--GO
 
 select * from Axtria_dev.DBO.tblImportRepTerr_Test
 
@@ -2034,17 +2038,25 @@ SELECT [Territory #] FROM Axtria_dev.DBO.inINBURoster
 WHERE Flag = 'PRI' AND FFName IN ('INBU APEX SF','INBU PINNACLE SF','INBU SUMMIT SF')
 )
 
-SELECT * INTO Axtria_dev.DBO.tblImportRepTerr_Test
-FROM Axtria_dev.DBO.tblImportRepTerr WHERE 1 = 0
+SELECT * INTO Axtria_dev.DBO.inINBURoster_Test
+FROM Axtria_dev.DBO.inINBURoster WHERE 1 = 0
 
-INSERT INTO Axtria_dev.DBO.tblImportRepTerr_Test (STAFF_EMAIL, TERRITORY_NUMBER, PRIMARY_TERRITORY, IS_ACTIVE)
-VALUES ('hunter.ruan@xsunt.com', '30000', 'Y', 'Y')
-INSERT INTO Axtria_dev.DBO.tblImportRepTerr_Test (STAFF_EMAIL, TERRITORY_NUMBER, PRIMARY_TERRITORY, IS_ACTIVE)
-VALUES ('czhu@xsunt.com', '3P000', 'Y', 'Y')
-INSERT INTO Axtria_dev.DBO.tblImportRepTerr_Test (STAFF_EMAIL, TERRITORY_NUMBER, PRIMARY_TERRITORY, IS_ACTIVE)
-VALUES ('vicky.chen@xsunt.com', '3PA00', 'Y', 'Y')
-INSERT INTO Axtria_dev.DBO.tblImportRepTerr_Test (STAFF_EMAIL, TERRITORY_NUMBER, PRIMARY_TERRITORY, IS_ACTIVE)
-VALUES ('hannah.zheng@xsunt.com', '3PA01', 'Y', 'Y')
+INSERT INTO Axtria_dev.DBO.inINBURoster_Test (Email, [Territory #], [Territory Description])
+VALUES ('hunter.ruan@xsunt.com', '30000', 'Nation')
+INSERT INTO Axtria_dev.DBO.inINBURoster_Test (Email, [Territory #], [Territory Description])
+VALUES ('czhu@xsunt.com', '3P000', 'Northeast')
+INSERT INTO Axtria_dev.DBO.inINBURoster_Test (Email, [Territory #], [Territory Description])
+VALUES ('alan.guo@xsunt.com', '3PA00', 'New England')
+INSERT INTO Axtria_dev.DBO.inINBURoster_Test (Email, [Territory #], [Territory Description])
+VALUES ('hannah.zheng@xsunt.com', '3PA01', 'Portland, ME')
+INSERT INTO Axtria_dev.DBO.inINBURoster_Test (Email, [Territory #], [Territory Description])
+VALUES ('czhu@xsunt.com', '30000', 'Nation')
+INSERT INTO Axtria_dev.DBO.inINBURoster_Test (Email, [Territory #], [Territory Description])
+VALUES ('czhu@xsunt.com', '00000', 'Unknown')
+INSERT INTO Axtria_dev.DBO.inINBURoster_Test (Email, [Territory #], [Territory Description])
+VALUES ('czhu@xsunt.com', '3PA00', 'New England')
+INSERT INTO Axtria_dev.DBO.inINBURoster_Test (Email, [Territory #], [Territory Description])
+VALUES ('czhu@xsunt.com', '3PA01', 'Portland, ME')
 */
 
 
