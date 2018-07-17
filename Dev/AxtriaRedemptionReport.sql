@@ -44,6 +44,9 @@ Axtria_dev.DBO.tblImportRepTerr
 Axtria_dev.DBO.inINBURoster_Test	--internal test
 Axtria_dev.DBO.inINBURoster		--inINBURoster_20180612
 
+Dev: Axtria_dev
+Prod: Axtria
+
 Output:
 select * from tblGeo
 select * from tblDateConfig
