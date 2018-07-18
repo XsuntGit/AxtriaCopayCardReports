@@ -10,6 +10,11 @@ AS
 SET NOCOUNT ON;
 
 /*
+Differenct between Dev and Prod
+Dev: Axtria_dev
+Prod: Axtria
+*/
+/*
 To align redemption
 1)	get NPI number from tbldoctors using the DoctorID from tblclaims. 
 2)	Get NPI number from tblFullFeedImportAllApprovedClaims_fullhistory
@@ -22,7 +27,7 @@ To align redemption
 To align activation
 1)	Use physician information from 1st claim (follow the process above)
 2)	If not aligned, use the primary physician information in tblpatientphysician (follow the process above)
-3)	If not aligned, use patient��s zip code (zip to terr)
+3)	If not aligned, use patient's zip code (zip to terr)
 
 Rawdata:
 Enbrel_Production.DBO.tblClaims
@@ -51,9 +56,6 @@ Axtria_dev.DBO.tblImportAmaPDRP
 Axtria_dev.DBO.tblImportRepTerr
 Axtria_dev.DBO.inINBURoster_Test	--internal test
 Axtria_dev.DBO.inINBURoster		--inINBURoster_20180612
-
-Dev: Axtria_dev
-Prod: Axtria
 
 Output:
 select * from tblGeo
@@ -481,7 +483,7 @@ CASE WHEN ContactName LIKE '%,%' THEN SUBSTRING(ContactName,1,CHARINDEX(',',Cont
 ,'Dr. ',''),' Jr.',''),' Sr.',''),'Mr. ',''),'Ms. ',''),'Mrs. ',''),'Miss ','')
 ,' Physician Pc',''),'Md Pc',''),' Md Llc','')) AS PhysicianName,
 UPPER(Addr1) AS Address1,UPPER(City) AS City, State, LEFT(Zip,5) AS Zip
-FROM Axtria_dev.DBO.inPhysicianFaxRaw_20180402
+FROM Axtria_dev.DBO.inPhysicianFaxRaw
 ) B ON A.NPI = B.NPI
 WHERE A.NPI IS NOT NULL
 
@@ -2232,16 +2234,33 @@ AND FIELD_FORCE_NAME IN ('INBU APEX SF','INBU PINNACLE SF','INBU SUMMIT SF')
 
 --SELECT * FROM tblGeo
 
+
 /*
+CREATE VIEW V_OutputGeo
+AS
+SELECT 'Terr' AS Lev, Terr AS Geo, TerrName AS GeoName
+FROM DBO.tblGeo
+UNION ALL
+SELECT DISTINCT 'Dist' AS Lev, Dist AS Geo, DistName AS GeoName
+FROM DBO.tblGeo
+UNION ALL
+SELECT DISTINCT 'Reg' AS Lev, Reg AS Geo, RegName AS GeoName
+FROM DBO.tblGeo
+UNION ALL
+SELECT DISTINCT 'Nat' AS Lev, Nat AS Geo, NatName AS GeoName
+FROM DBO.tblGeo
+UNION ALL
+SELECT 'Unk' AS Lev, '00000' AS Geo, 'Unknown' AS GeoName
+
 USE Axtria_dev
 
 ALTER VIEW V_RepRoster
 AS
 SELECT [Territory #] AS Geo, [Territory Description] AS GeoName, Email
-FROM Axtria_dev.DBO.inINBURoster_Test
+FROM DBO.inINBURoster_Test
 WHERE [Territory #] IN (SELECT Geo FROM Enbrel_GEOlevelreport.DBO.V_OutputGeo)
 --SELECT [Territory #] AS Geo, [Territory Description] AS GeoName, Email
---FROM Axtria_dev.DBO.inINBURoster
+--FROM DBO.inINBURoster
 --WHERE Flag = 'PRI' AND FFName IN ('INBU APEX SF','INBU PINNACLE SF','INBU SUMMIT SF')
 --AND [Territory #] IN (SELECT Geo FROM Enbrel_GEOlevelreport.DBO.V_OutputGeo)
 
@@ -6086,3 +6105,4 @@ drop table tempTransactions_Reg
 if object_id('tempTransactionsWithPeriod') is not null
 drop table tempTransactionsWithPeriod
 
+GO
