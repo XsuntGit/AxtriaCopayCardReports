@@ -323,11 +323,21 @@ HAVING COUNT(*) >1
 --NONE
 */
 
---Update PharmacyName
+--Update PharmacyName Remove State and US
 UPDATE DBO.tblTransactions
 SET PharmacyName = RTRIM(LEFT(PharmacyName,LEN(PharmacyName)-5))
 WHERE PharmacyName LIKE '% US'
 
+--Update PharmacyName Remove Pharmacy Phone Numbers
+UPDATE DBO.tblTransactions
+SET PharmacyName = RTRIM(LEFT(PharmacyName,LEN(PharmacyName)-12))
+WHERE IsNumeric(RIGHT(REPLACE(PharmacyName,'-',''),12)) = 1 
+UPDATE DBO.tblTransactions
+SET PharmacyName = RTRIM(LEFT(PharmacyName,LEN(PharmacyName)-11))
+WHERE IsNumeric(RIGHT(REPLACE(PharmacyName,'-',''),11)) = 1 
+UPDATE DBO.tblTransactions
+SET PharmacyName = RTRIM(LEFT(PharmacyName,LEN(PharmacyName)-10))
+WHERE IsNumeric(RIGHT(REPLACE(PharmacyName,'-',''),10)) = 1 
 
 --Muti NPI Number
 /*
