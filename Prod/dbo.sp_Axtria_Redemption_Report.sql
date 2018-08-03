@@ -948,7 +948,7 @@ INSERT INTO [dbo].[tblActivations]
 	,[SUMMIT_RegName])
 SELECT C.PatientID, C.CardID,
 CONVERT(DATE, C.Date) AS Date_Name, V.Date_ID, V.Week_ID, V.Month_ID, V.Year_ID, 
-CASE LEFT(C.ActivityType, 27) WHEN 'Patient Enrolled DCARD-OPUS' THEN 'Debit' 
+CASE LEFT(C.ActivityDesc, 27) WHEN 'Patient Enrolled DCARD-OPUS' THEN 'Debit' 
 WHEN 'Patient Enrolled DMR-OPUS o' THEN 'DMR' 
 WHEN 'Patient Enrolled MPRS-OPUS' THEN 'Retail' WHEN 'Patient Enrolled RCARD-OPUS' THEN 'Retail' END AS ProgramType, 
 'OPU' AS VendorCode,
@@ -971,8 +971,8 @@ CONVERT(VARCHAR(5),NULL) AS SUMMIT_Reg, CONVERT(VARCHAR(50),NULL) AS SUMMIT_RegN
 FROM Enbrel_Production.DBO.tblAccountHistory C
 INNER JOIN DBO.tblCalendar V ON CONVERT(DATE, C.Date) = V.Date_Name
 LEFT JOIN Enbrel_Production.DBO.tblPatientInfo P ON C.PatientID = P.PatientID
-WHERE C.ActivityType LIKE '%Patient Enrolled%' AND C.Patientid IS NOT NULL
-AND LEFT(C.ActivityType, 27) NOT IN ('Patient Enrolled','Patient Enrolled VCARD-OPUS')
+WHERE C.ActivityDesc LIKE '%Patient Enrolled%' AND C.Patientid IS NOT NULL
+AND LEFT(C.ActivityDesc, 27) NOT IN ('Patient Enrolled','Patient Enrolled VCARD-OPUS')
 
 INSERT INTO [dbo].[tblActivations]
 	([PatientID]
@@ -1047,7 +1047,7 @@ INNER JOIN (
 ) R ON C.CardID = R.MemberID
 INNER JOIN DBO.tblCalendar V ON CONVERT(DATE, C.Date) = V.Date_Name
 LEFT JOIN Enbrel_Production.DBO.tblPatientInfo P ON C.PatientID = P.PatientID
-WHERE C.Patientid IS NOT NULL AND LEFT(C.ActivityType, 27) IN ('Patient Enrolled')
+WHERE C.Patientid IS NOT NULL AND LEFT(C.ActivityDesc, 27) IN ('Patient Enrolled')
 
 INSERT INTO [dbo].[tblActivations]
 	([PatientID]
@@ -1108,7 +1108,7 @@ INNER JOIN Enbrel_Production.DBO.tblCardInfoCRX R --ProgramID 58
 ON C.CardID = R.MemberID
 INNER JOIN DBO.tblCalendar V ON CONVERT(DATE, C.Date) = V.Date_Name
 LEFT JOIN Enbrel_Production.DBO.tblPatientInfo P ON C.PatientID = P.PatientID
-WHERE C.Patientid IS NOT NULL AND LEFT(C.ActivityType, 27) IN ('Patient Enrolled')
+WHERE C.Patientid IS NOT NULL AND LEFT(C.ActivityDesc, 27) IN ('Patient Enrolled')
 
 INSERT INTO [dbo].[tblActivations]
 	([PatientID]
@@ -1169,7 +1169,7 @@ INNER JOIN Enbrel_Production.DBO.tblCardInfo R --ProgramID 5
 ON C.CardID = R.MemberID
 INNER JOIN DBO.tblCalendar V ON CONVERT(DATE, C.Date) = V.Date_Name
 LEFT JOIN Enbrel_Production.DBO.tblPatientInfo P ON C.PatientID = P.PatientID
-WHERE C.Patientid IS NOT NULL AND LEFT(C.ActivityType, 27) IN ('Patient Enrolled')
+WHERE C.Patientid IS NOT NULL AND LEFT(C.ActivityDesc, 27) IN ('Patient Enrolled')
 
 
 INSERT INTO [dbo].[tblActivations]
@@ -1229,10 +1229,10 @@ CONVERT(VARCHAR(5),NULL) AS SUMMIT_Reg, CONVERT(VARCHAR(50),NULL) AS SUMMIT_RegN
 FROM Enbrel_Production.DBO.tblAccountHistory C
 INNER JOIN DBO.tblCalendar V ON CONVERT(DATE, C.Date) = V.Date_Name
 LEFT JOIN Enbrel_Production.DBO.tblPatientInfo P ON C.PatientID = P.PatientID
-WHERE ActivityType LIKE '%Patient Program change%'
+WHERE ActivityDesc LIKE '%Patient Program change%'
 AND C.CardID IS NOT NULL 
-AND (SUBSTRING(C.ActivityType,CHARINDEX('to',C.ActivityType)+3,50) LIKE '%Debit%'
-OR SUBSTRING(C.ActivityType,CHARINDEX('to',C.ActivityType)+3,50) LIKE '%Amgen Edge%')
+AND (SUBSTRING(C.ActivityDesc,CHARINDEX('to',C.ActivityDesc)+3,50) LIKE '%Debit%'
+OR SUBSTRING(C.ActivityDesc,CHARINDEX('to',C.ActivityDesc)+3,50) LIKE '%Amgen Edge%')
 AND C.Patientid IS NOT NULL 
 
 
@@ -1278,7 +1278,7 @@ INSERT INTO [dbo].[tblActivations]
 SELECT C.PatientID, C.CardID,
 CONVERT(DATE, C.Date) AS Date_Name, V.Date_ID, V.Week_ID, V.Month_ID, V.Year_ID, 
 'Retail' AS ProgramType, 
-CASE WHEN SUBSTRING(C.ActivityType,CHARINDEX('to',C.ActivityType)+3,50) LIKE '%CRX%' THEN 'CRX' ELSE 'OPU' END AS VendorCode,
+CASE WHEN SUBSTRING(C.ActivityDesc,CHARINDEX('to',C.ActivityDesc)+3,50) LIKE '%CRX%' THEN 'CRX' ELSE 'OPU' END AS VendorCode,
 CONVERT(DATE, NULL) AS Date_Name_1stTransaction, CONVERT(INT, NULL) AS Time_1stTransaction, CONVERT(VARCHAR(5),NULL) AS Zip, 
 CONVERT(VARCHAR(10),NULL) Customer_Number, LEFT(P.Zip,5) AS PatientZip,  CONVERT(VARCHAR(5),NULL) PhysicianZip,
 --CONVERT(VARCHAR(5),NULL) AS PharmacyZip, IsActive, 
@@ -1295,9 +1295,9 @@ CONVERT(VARCHAR(5),NULL) AS SUMMIT_Reg, CONVERT(VARCHAR(50),NULL) AS SUMMIT_RegN
 FROM Enbrel_Production.DBO.tblAccountHistory C
 INNER JOIN DBO.tblCalendar V ON CONVERT(DATE, C.Date) = V.Date_Name
 LEFT JOIN Enbrel_Production.DBO.tblPatientInfo P ON C.PatientID = P.PatientID
-WHERE ActivityType LIKE '%Patient Program change%'
+WHERE ActivityDesc LIKE '%Patient Program change%'
 AND C.CardID IS NOT NULL 
-AND SUBSTRING(C.ActivityType,CHARINDEX('to',C.ActivityType)+3,50) LIKE '%Retail%'
+AND SUBSTRING(C.ActivityDesc,CHARINDEX('to',C.ActivityDesc)+3,50) LIKE '%Retail%'
 AND C.Patientid IS NOT NULL 
 
 
@@ -1341,8 +1341,8 @@ INSERT INTO [dbo].[tblActivations]
 	,[SUMMIT_RegName])
 SELECT C.PatientID, C.CardID,
 CONVERT(DATE, C.Date) AS Date_Name, V.Date_ID, V.Week_ID, V.Month_ID, V.Year_ID, 
-'DMR' AS ProgramType, CASE WHEN SUBSTRING(C.ActivityType,CHARINDEX('to',C.ActivityType)+3,50) LIKE '%CRX%' THEN 'CRX' 
-WHEN SUBSTRING(C.ActivityType,CHARINDEX('to',C.ActivityType)+3,50) LIKE '%PSKW%' THEN 'CRX' ELSE 'OPU' END AS VendorCode,
+'DMR' AS ProgramType, CASE WHEN SUBSTRING(C.ActivityDesc,CHARINDEX('to',C.ActivityDesc)+3,50) LIKE '%CRX%' THEN 'CRX' 
+WHEN SUBSTRING(C.ActivityDesc,CHARINDEX('to',C.ActivityDesc)+3,50) LIKE '%PSKW%' THEN 'CRX' ELSE 'OPU' END AS VendorCode,
 CONVERT(DATE, NULL) AS Date_Name_1stTransaction, CONVERT(INT, NULL) AS Time_1stTransaction, CONVERT(VARCHAR(5),NULL) AS Zip, 
 CONVERT(VARCHAR(10),NULL) Customer_Number, LEFT(P.Zip,5) AS PatientZip,  CONVERT(VARCHAR(5),NULL) PhysicianZip,
 --CONVERT(VARCHAR(5),NULL) AS PharmacyZip, IsActive, 
@@ -1359,9 +1359,9 @@ CONVERT(VARCHAR(5),NULL) AS SUMMIT_Reg, CONVERT(VARCHAR(50),NULL) AS SUMMIT_RegN
 FROM Enbrel_Production.DBO.tblAccountHistory C
 INNER JOIN DBO.tblCalendar V ON CONVERT(DATE, C.Date) = V.Date_Name
 LEFT JOIN Enbrel_Production.DBO.tblPatientInfo P ON C.PatientID = P.PatientID
-WHERE ActivityType LIKE '%Patient Program change%'
+WHERE ActivityDesc LIKE '%Patient Program change%'
 AND C.CardID IS NOT NULL 
-AND SUBSTRING(C.ActivityType,CHARINDEX('to',C.ActivityType)+3,50) LIKE '%DMR%'
+AND SUBSTRING(C.ActivityDesc,CHARINDEX('to',C.ActivityDesc)+3,50) LIKE '%DMR%'
 AND C.Patientid IS NOT NULL 
 
 
