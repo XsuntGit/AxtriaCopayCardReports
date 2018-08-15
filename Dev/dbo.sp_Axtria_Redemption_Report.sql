@@ -46,16 +46,19 @@ Enbrel_Production.DBO.tblcardInfoDebitOther
 Enbrel_Production.DBO.tblCardInfoCRX
 Enbrel_Production.DBO.tblCardInfo
 Axtria_dev.DBO.inPhysicianFaxRaw	--inPhysicianFaxRaw_20180402
-Axtria_dev.DBO.tblFullFeedImportAllApprovedClaims_fullhistory
-Axtria_dev.DBO.tblImportCustNomProf
-Axtria_dev.DBO.tblImportCustTerr
+Axtria_dev.DBO.tblFullFeedImportAllApprovedClaims_fullhistory	
+--Alignment files:
+Axtria_dev.DBO.tblImportCustNomProf		
+Axtria_dev.DBO.tblImportCustTerr	
 Axtria_dev.DBO.tblImportGeoTerr
 Axtria_dev.DBO.tblImportTerrHierarchy
 Axtria_dev.DBO.tblImportTarget
 Axtria_dev.DBO.tblImportAmaPDRP
-Axtria_dev.DBO.tblImportRepTerr
+Axtria_dev.DBO.tblImportRepTerr		--not use
+--Rep Roster file
+Axtria_dev.DBO.inINBURoster		
+Axtria_dev.DBO.inINBURoster_Nat		--nation and unknown report user, they are not in inINBURoster
 Axtria_dev.DBO.inINBURoster_Test	--internal test
-Axtria_dev.DBO.inINBURoster		--inINBURoster_20180612
 
 Output:
 select * from tblGeo
@@ -88,7 +91,7 @@ select * from OutputIndication_Nat
 select * from OutputDashboardData_Unk
 select * from OutputPhysicianData_Unk
 
---For WebTeam
+--For SendEmail
 SELECT * FROM Axtria_dev.DBO.V_RepRoster
 SELECT * FROM Axtria_dev.DBO.V_DateConfig
 
@@ -2866,8 +2869,8 @@ SELECT 2 AS Idx, A.ProgramType, Geo, GeoName, E, F, G, H, I, J, K, L, M, N, A.Di
 INTO DBO.OutputDashboardData2
 FROM (
 SELECT DISTINCT B.ProgramType, A.Dist AS Geo, A.DistName AS GeoName,
-CASE WHEN F.Activations = 0 THEN NULL ELSE D.Activations*1.0/F.Activations -1 END AS E, 
-CASE WHEN E.Transactions = 0 THEN NULL ELSE C.Transactions*1.0/E.Transactions -1 END AS H,
+CASE WHEN F.Activations = 0 THEN NULL ELSE ISNULL(D.Activations,0)*1.0/F.Activations -1 END AS E, 
+CASE WHEN E.Transactions = 0 THEN NULL ELSE ISNULL(C.Transactions,0)*1.0/E.Transactions -1 END AS H,
 A.Dist FROM DBO.tblGeo A
 INNER JOIN (
 SELECT DISTINCT PROGRAMTYPE FROM tblGeoTransactions
@@ -2882,8 +2885,8 @@ LEFT JOIN DBO.tblGeoActivations F ON A.Dist = F.Geo
 AND F.Period in ('PYTD') AND F.Lev = 'Dist' AND B.ProgramType = F.ProgramType
 ) A INNER JOIN (
 SELECT DISTINCT B.ProgramType, 
-CASE WHEN F.Activations = 0 THEN NULL ELSE D.Activations*1.0/F.Activations -1 END AS F, 
-CASE WHEN E.Transactions = 0 THEN NULL ELSE C.Transactions*1.0/E.Transactions -1 END AS I,
+CASE WHEN F.Activations = 0 THEN NULL ELSE ISNULL(D.Activations,0)*1.0/F.Activations -1 END AS F, 
+CASE WHEN E.Transactions = 0 THEN NULL ELSE ISNULL(C.Transactions,0)*1.0/E.Transactions -1 END AS I,
 A.Dist FROM DBO.tblGeo A
 INNER JOIN (
 SELECT DISTINCT PROGRAMTYPE FROM tblGeoTransactions
@@ -2899,8 +2902,8 @@ AND F.Period in ('P13W') AND F.Lev = 'Dist' AND B.ProgramType = F.ProgramType
 ) B ON A.Dist = B.Dist AND A.ProgramType = B.ProgramType
 INNER JOIN (
 SELECT DISTINCT B.ProgramType, 
-CASE WHEN F.Activations = 0 THEN NULL ELSE D.Activations*1.0/F.Activations -1 END AS G, 
-CASE WHEN E.Transactions = 0 THEN NULL ELSE C.Transactions*1.0/E.Transactions -1 END AS J,
+CASE WHEN F.Activations = 0 THEN NULL ELSE ISNULL(D.Activations,0)*1.0/F.Activations -1 END AS G, 
+CASE WHEN E.Transactions = 0 THEN NULL ELSE ISNULL(C.Transactions,0)*1.0/E.Transactions -1 END AS J,
 A.Dist FROM DBO.tblGeo A
 INNER JOIN (
 SELECT DISTINCT PROGRAMTYPE FROM tblGeoTransactions
@@ -2935,8 +2938,8 @@ FROM tblGeoRanking
 INSERT INTO DBO.OutputDashboardData2
 SELECT 4 AS Idx, A.ProgramType, Geo, GeoName, E, F, G, H, I, J, K, L, M, N, A.Dist FROM (
 SELECT DISTINCT B.ProgramType, A.Reg AS Geo, A.RegName AS GeoName,
-CASE WHEN F.Activations = 0 THEN NULL ELSE D.Activations*1.0/F.Activations -1 END AS E, 
-CASE WHEN E.Transactions = 0 THEN NULL ELSE C.Transactions*1.0/E.Transactions -1 END AS H,
+CASE WHEN F.Activations = 0 THEN NULL ELSE ISNULL(D.Activations,0)*1.0/F.Activations -1 END AS E, 
+CASE WHEN E.Transactions = 0 THEN NULL ELSE ISNULL(C.Transactions,0)*1.0/E.Transactions -1 END AS H,
 A.Dist FROM DBO.tblGeo A
 INNER JOIN (
 SELECT DISTINCT PROGRAMTYPE FROM tblGeoTransactions
@@ -2951,8 +2954,8 @@ LEFT JOIN DBO.tblGeoActivations F ON A.Reg = F.Geo
 AND F.Period in ('PYTD') AND F.Lev = 'Reg' AND B.ProgramType = F.ProgramType
 ) A INNER JOIN (
 SELECT DISTINCT B.ProgramType, A.Reg,
-CASE WHEN F.Activations = 0 THEN NULL ELSE D.Activations*1.0/F.Activations -1 END AS F, 
-CASE WHEN E.Transactions = 0 THEN NULL ELSE C.Transactions*1.0/E.Transactions -1 END AS I,
+CASE WHEN F.Activations = 0 THEN NULL ELSE ISNULL(D.Activations,0)*1.0/F.Activations -1 END AS F, 
+CASE WHEN E.Transactions = 0 THEN NULL ELSE ISNULL(C.Transactions,0)*1.0/E.Transactions -1 END AS I,
 A.Dist FROM DBO.tblGeo A
 INNER JOIN (
 SELECT DISTINCT PROGRAMTYPE FROM tblGeoTransactions
@@ -2968,8 +2971,8 @@ AND F.Period in ('P13W') AND F.Lev = 'Reg' AND B.ProgramType = F.ProgramType
 ) B ON A.Dist = B.Dist AND A.ProgramType = B.ProgramType
 INNER JOIN (
 SELECT DISTINCT B.ProgramType, 
-CASE WHEN F.Activations = 0 THEN NULL ELSE D.Activations*1.0/F.Activations -1 END AS G, 
-CASE WHEN E.Transactions = 0 THEN NULL ELSE C.Transactions*1.0/E.Transactions -1 END AS J,
+CASE WHEN F.Activations = 0 THEN NULL ELSE ISNULL(D.Activations,0)*1.0/F.Activations -1 END AS G, 
+CASE WHEN E.Transactions = 0 THEN NULL ELSE ISNULL(C.Transactions,0)*1.0/E.Transactions -1 END AS J,
 A.Dist FROM DBO.tblGeo A
 INNER JOIN (
 SELECT DISTINCT PROGRAMTYPE FROM tblGeoTransactions
@@ -3004,8 +3007,8 @@ FROM tblGeoRanking
 INSERT INTO DBO.OutputDashboardData2
 SELECT 5 AS Idx, A.ProgramType, 'Nation', '-', E, F, G, H, I, J, K, L, '-', '-', A.Dist FROM (
 SELECT DISTINCT B.ProgramType, A.Reg AS Geo, A.RegName AS GeoName,
-CASE WHEN F.Activations = 0 THEN NULL ELSE D.Activations*1.0/F.Activations -1 END AS E, 
-CASE WHEN E.Transactions = 0 THEN NULL ELSE C.Transactions*1.0/E.Transactions -1 END AS H,
+CASE WHEN F.Activations = 0 THEN NULL ELSE ISNULL(D.Activations,0)*1.0/F.Activations -1 END AS E, 
+CASE WHEN E.Transactions = 0 THEN NULL ELSE ISNULL(C.Transactions,0)*1.0/E.Transactions -1 END AS H,
 A.Dist FROM DBO.tblGeo A
 INNER JOIN (
 SELECT DISTINCT PROGRAMTYPE FROM tblGeoTransactions
@@ -3020,8 +3023,8 @@ LEFT JOIN DBO.tblGeoActivations F ON A.Nat = F.Geo
 AND F.Period in ('PYTD') AND F.Lev = 'Nat' AND B.ProgramType = F.ProgramType
 ) A INNER JOIN (
 SELECT DISTINCT B.ProgramType, A.Nat,
-CASE WHEN F.Activations = 0 THEN NULL ELSE D.Activations*1.0/F.Activations -1 END AS F, 
-CASE WHEN E.Transactions = 0 THEN NULL ELSE C.Transactions*1.0/E.Transactions -1 END AS I,
+CASE WHEN F.Activations = 0 THEN NULL ELSE ISNULL(D.Activations*1.0,0)/F.Activations -1 END AS F, 
+CASE WHEN E.Transactions = 0 THEN NULL ELSE ISNULL(C.Transactions,0)*1.0/E.Transactions -1 END AS I,
 A.Dist FROM DBO.tblGeo A
 INNER JOIN (
 SELECT DISTINCT PROGRAMTYPE FROM tblGeoTransactions
@@ -3037,8 +3040,8 @@ AND F.Period in ('P13W') AND F.Lev = 'Nat' AND B.ProgramType = F.ProgramType
 ) B ON A.Dist = B.Dist AND A.ProgramType = B.ProgramType
 INNER JOIN (
 SELECT DISTINCT B.ProgramType, 
-CASE WHEN F.Activations = 0 THEN NULL ELSE D.Activations*1.0/F.Activations -1 END AS G, 
-CASE WHEN E.Transactions = 0 THEN NULL ELSE C.Transactions*1.0/E.Transactions -1 END AS J,
+CASE WHEN F.Activations = 0 THEN NULL ELSE ISNULL(D.Activations,0)*1.0/F.Activations -1 END AS G, 
+CASE WHEN E.Transactions = 0 THEN NULL ELSE ISNULL(C.Transactions,0)*1.0/E.Transactions -1 END AS J,
 A.Dist FROM DBO.tblGeo A
 INNER JOIN (
 SELECT DISTINCT PROGRAMTYPE FROM tblGeoTransactions
@@ -3069,8 +3072,8 @@ AND D.Period in ('C52W') AND D.Lev = 'Nat' AND B.ProgramType = D.ProgramType
 INSERT INTO DBO.OutputDashboardData2
 SELECT 6 AS Idx, A.ProgramType, Geo, GeoName, E, F, G, H, I, J, K, L, M, N, A.Dist FROM (
 SELECT DISTINCT B.ProgramType, A.Terr AS Geo, A.Team AS GeoName,
-CASE WHEN F.Activations = 0 THEN NULL ELSE D.Activations*1.0/F.Activations -1 END AS E, 
-CASE WHEN E.Transactions = 0 THEN NULL ELSE C.Transactions*1.0/E.Transactions -1 END AS H,
+CASE WHEN F.Activations = 0 THEN NULL ELSE ISNULL(D.Activations,0)*1.0/F.Activations -1 END AS E, 
+CASE WHEN E.Transactions = 0 THEN NULL ELSE ISNULL(C.Transactions,0)*1.0/E.Transactions -1 END AS H,
 A.Dist FROM DBO.tblGeo A
 INNER JOIN (
 SELECT DISTINCT PROGRAMTYPE FROM tblGeoTransactions
@@ -3085,8 +3088,8 @@ LEFT JOIN DBO.tblGeoActivations F ON A.Terr = F.Geo
 AND F.Period in ('PYTD') AND F.Lev = 'Terr' AND B.ProgramType = F.ProgramType
 ) A INNER JOIN (
 SELECT DISTINCT B.ProgramType, A.Terr,
-CASE WHEN F.Activations = 0 THEN NULL ELSE D.Activations*1.0/F.Activations -1 END AS F, 
-CASE WHEN E.Transactions = 0 THEN NULL ELSE C.Transactions*1.0/E.Transactions -1 END AS I,
+CASE WHEN F.Activations = 0 THEN NULL ELSE ISNULL(D.Activations,0)*1.0/F.Activations -1 END AS F, 
+CASE WHEN E.Transactions = 0 THEN NULL ELSE ISNULL(C.Transactions,0)*1.0/E.Transactions -1 END AS I,
 A.Dist FROM DBO.tblGeo A
 INNER JOIN (
 SELECT DISTINCT PROGRAMTYPE FROM tblGeoTransactions
@@ -3102,8 +3105,8 @@ AND F.Period in ('P13W') AND F.Lev = 'Terr' AND B.ProgramType = F.ProgramType
 ) B ON A.Dist = B.Dist AND A.ProgramType = B.ProgramType AND A.Geo = B.Terr
 INNER JOIN (
 SELECT DISTINCT B.ProgramType, A.Terr,
-CASE WHEN F.Activations = 0 THEN NULL ELSE D.Activations*1.0/F.Activations -1 END AS G, 
-CASE WHEN E.Transactions = 0 THEN NULL ELSE C.Transactions*1.0/E.Transactions -1 END AS J,
+CASE WHEN F.Activations = 0 THEN NULL ELSE ISNULL(D.Activations,0)*1.0/F.Activations -1 END AS G, 
+CASE WHEN E.Transactions = 0 THEN NULL ELSE ISNULL(C.Transactions,0)*1.0/E.Transactions -1 END AS J,
 A.Dist FROM DBO.tblGeo A
 INNER JOIN (
 SELECT DISTINCT PROGRAMTYPE FROM tblGeoTransactions
@@ -3271,8 +3274,8 @@ SELECT 2 AS A, A.ProgramType AS B, CONVERT(VARCHAR(20),A.Geo) AS C, CONVERT(VARC
 INTO DBO.OutputDashboardData2_Nat
 FROM (
 SELECT DISTINCT B.ProgramType, 'Nation' AS Geo, '-' AS GeoName,
-CASE WHEN F.Activations = 0 THEN NULL ELSE D.Activations*1.0/F.Activations -1 END AS E, 
-CASE WHEN E.Transactions = 0 THEN NULL ELSE C.Transactions*1.0/E.Transactions -1 END AS H,
+CASE WHEN F.Activations = 0 THEN NULL ELSE ISNULL(D.Activations,0)*1.0/F.Activations -1 END AS E, 
+CASE WHEN E.Transactions = 0 THEN NULL ELSE ISNULL(C.Transactions,0)*1.0/E.Transactions -1 END AS H,
 A.Nat FROM DBO.tblGeo A
 INNER JOIN (
 SELECT DISTINCT PROGRAMTYPE FROM tblGeoTransactions
@@ -3287,8 +3290,8 @@ LEFT JOIN DBO.tblGeoActivations F ON A.Nat = F.Geo
 AND F.Period in ('PYTD') AND F.Lev = 'Nat' AND B.ProgramType = F.ProgramType
 ) A INNER JOIN (
 SELECT DISTINCT B.ProgramType,
-CASE WHEN F.Activations = 0 THEN NULL ELSE D.Activations*1.0/F.Activations -1 END AS F, 
-CASE WHEN E.Transactions = 0 THEN NULL ELSE C.Transactions*1.0/E.Transactions -1 END AS I,
+CASE WHEN F.Activations = 0 THEN NULL ELSE ISNULL(D.Activations,0)*1.0/F.Activations -1 END AS F, 
+CASE WHEN E.Transactions = 0 THEN NULL ELSE ISNULL(C.Transactions,0)*1.0/E.Transactions -1 END AS I,
 A.Nat FROM DBO.tblGeo A
 INNER JOIN (
 SELECT DISTINCT PROGRAMTYPE FROM tblGeoTransactions
@@ -3304,8 +3307,8 @@ AND F.Period in ('P13W') AND F.Lev = 'Nat' AND B.ProgramType = F.ProgramType
 ) B ON A.Nat = B.Nat AND A.ProgramType = B.ProgramType
 INNER JOIN (
 SELECT DISTINCT B.ProgramType, 
-CASE WHEN F.Activations = 0 THEN NULL ELSE D.Activations*1.0/F.Activations -1 END AS G, 
-CASE WHEN E.Transactions = 0 THEN NULL ELSE C.Transactions*1.0/E.Transactions -1 END AS J,
+CASE WHEN F.Activations = 0 THEN NULL ELSE ISNULL(D.Activations,0)*1.0/F.Activations -1 END AS G, 
+CASE WHEN E.Transactions = 0 THEN NULL ELSE ISNULL(C.Transactions,0)*1.0/E.Transactions -1 END AS J,
 A.Nat FROM DBO.tblGeo A
 INNER JOIN (
 SELECT DISTINCT PROGRAMTYPE FROM tblGeoTransactions
@@ -3337,8 +3340,8 @@ AND D.Period in ('C52W') AND D.Lev = 'Nat' AND B.ProgramType = D.ProgramType
 INSERT INTO DBO.OutputDashboardData2_Nat
 SELECT 3 AS Idx, A.ProgramType, Geo, GeoName, E, F, G, H, I, J, K, L, M, N, A.Nat FROM (
 SELECT DISTINCT B.ProgramType, A.Reg AS Geo, A.RegName AS GeoName,
-CASE WHEN F.Activations = 0 THEN NULL ELSE D.Activations*1.0/F.Activations -1 END AS E, 
-CASE WHEN E.Transactions = 0 THEN NULL ELSE C.Transactions*1.0/E.Transactions -1 END AS H,
+CASE WHEN F.Activations = 0 THEN NULL ELSE ISNULL(D.Activations,0)*1.0/F.Activations -1 END AS E, 
+CASE WHEN E.Transactions = 0 THEN NULL ELSE ISNULL(C.Transactions,0)*1.0/E.Transactions -1 END AS H,
 A.Nat FROM DBO.tblGeo A
 INNER JOIN (
 SELECT DISTINCT PROGRAMTYPE FROM tblGeoTransactions
@@ -3353,8 +3356,8 @@ LEFT JOIN DBO.tblGeoActivations F ON A.Reg = F.Geo
 AND F.Period in ('PYTD') AND F.Lev = 'Reg' AND B.ProgramType = F.ProgramType
 ) A INNER JOIN (
 SELECT DISTINCT B.ProgramType, A.Reg,
-CASE WHEN F.Activations = 0 THEN NULL ELSE D.Activations*1.0/F.Activations -1 END AS F, 
-CASE WHEN E.Transactions = 0 THEN NULL ELSE C.Transactions*1.0/E.Transactions -1 END AS I,
+CASE WHEN F.Activations = 0 THEN NULL ELSE ISNULL(D.Activations,0)*1.0/F.Activations -1 END AS F, 
+CASE WHEN E.Transactions = 0 THEN NULL ELSE ISNULL(C.Transactions,0)*1.0/E.Transactions -1 END AS I,
 A.Nat FROM DBO.tblGeo A
 INNER JOIN (
 SELECT DISTINCT PROGRAMTYPE FROM tblGeoTransactions
@@ -3370,8 +3373,8 @@ AND F.Period in ('P13W') AND F.Lev = 'Reg' AND B.ProgramType = F.ProgramType
 ) B ON A.Geo = B.Reg AND A.ProgramType = B.ProgramType
 INNER JOIN (
 SELECT DISTINCT B.ProgramType, A.Reg,
-CASE WHEN F.Activations = 0 THEN NULL ELSE D.Activations*1.0/F.Activations -1 END AS G, 
-CASE WHEN E.Transactions = 0 THEN NULL ELSE C.Transactions*1.0/E.Transactions -1 END AS J,
+CASE WHEN F.Activations = 0 THEN NULL ELSE ISNULL(D.Activations,0)*1.0/F.Activations -1 END AS G, 
+CASE WHEN E.Transactions = 0 THEN NULL ELSE ISNULL(C.Transactions,0)*1.0/E.Transactions -1 END AS J,
 A.Nat FROM DBO.tblGeo A
 INNER JOIN (
 SELECT DISTINCT PROGRAMTYPE FROM tblGeoTransactions
@@ -3407,8 +3410,8 @@ FROM tblGeoRanking
 INSERT INTO DBO.OutputDashboardData2_Nat
 SELECT 3 AS Idx, A.ProgramType, '', 'Unknown', E, F, G, H, I, J, K, L, M, N, A.Nat FROM (
 SELECT DISTINCT B.ProgramType, A.Reg AS Geo,
-CASE WHEN F.Activations = 0 THEN NULL ELSE D.Activations*1.0/F.Activations -1 END AS E, 
-CASE WHEN E.Transactions = 0 THEN NULL ELSE C.Transactions*1.0/E.Transactions -1 END AS H,
+CASE WHEN F.Activations = 0 THEN NULL ELSE ISNULL(D.Activations,0)*1.0/F.Activations -1 END AS E, 
+CASE WHEN E.Transactions = 0 THEN NULL ELSE ISNULL(C.Transactions,0)*1.0/E.Transactions -1 END AS H,
 A.Nat FROM (SELECT '00000' AS Reg, '30000' AS Nat) A
 INNER JOIN (
 SELECT DISTINCT PROGRAMTYPE FROM tblGeoTransactions
@@ -3423,8 +3426,8 @@ LEFT JOIN DBO.tblGeoActivations F ON A.Reg = F.Geo
 AND F.Period in ('PYTD') AND F.Lev = 'Unk' AND B.ProgramType = F.ProgramType
 ) A INNER JOIN (
 SELECT DISTINCT B.ProgramType, A.Reg,
-CASE WHEN F.Activations = 0 THEN NULL ELSE D.Activations*1.0/F.Activations -1 END AS F, 
-CASE WHEN E.Transactions = 0 THEN NULL ELSE C.Transactions*1.0/E.Transactions -1 END AS I,
+CASE WHEN F.Activations = 0 THEN NULL ELSE ISNULL(D.Activations,0)*1.0/F.Activations -1 END AS F, 
+CASE WHEN E.Transactions = 0 THEN NULL ELSE ISNULL(C.Transactions,0)*1.0/E.Transactions -1 END AS I,
 A.Nat FROM (SELECT '00000' AS Reg, '30000' AS Nat) A
 INNER JOIN (
 SELECT DISTINCT PROGRAMTYPE FROM tblGeoTransactions
@@ -3440,8 +3443,8 @@ AND F.Period in ('P13W') AND F.Lev = 'Unk' AND B.ProgramType = F.ProgramType
 ) B ON A.Geo = B.Reg AND A.ProgramType = B.ProgramType
 INNER JOIN (
 SELECT DISTINCT B.ProgramType, A.Reg,
-CASE WHEN F.Activations = 0 THEN NULL ELSE D.Activations*1.0/F.Activations -1 END AS G, 
-CASE WHEN E.Transactions = 0 THEN NULL ELSE C.Transactions*1.0/E.Transactions -1 END AS J,
+CASE WHEN F.Activations = 0 THEN NULL ELSE ISNULL(D.Activations,0)*1.0/F.Activations -1 END AS G, 
+CASE WHEN E.Transactions = 0 THEN NULL ELSE ISNULL(C.Transactions,0)*1.0/E.Transactions -1 END AS J,
 A.Nat FROM (SELECT '00000' AS Reg, '30000' AS Nat) A
 INNER JOIN (
 SELECT DISTINCT PROGRAMTYPE FROM tblGeoTransactions
@@ -3620,8 +3623,8 @@ INSERT INTO DBO.OutputDashboardData2_Reg
 SELECT 4 AS Idx, A.ProgramType, Geo, GeoName, E, F, G, H, I, J, K, L, M, N, A.Reg 
 FROM (
 SELECT DISTINCT B.ProgramType, A.Dist AS Geo, A.DistName AS GeoName,
-CASE WHEN F.Activations = 0 THEN NULL ELSE D.Activations*1.0/F.Activations -1 END AS E, 
-CASE WHEN E.Transactions = 0 THEN NULL ELSE C.Transactions*1.0/E.Transactions -1 END AS H,
+CASE WHEN F.Activations = 0 THEN NULL ELSE ISNULL(D.Activations,0)*1.0/F.Activations -1 END AS E, 
+CASE WHEN E.Transactions = 0 THEN NULL ELSE ISNULL(C.Transactions,0)*1.0/E.Transactions -1 END AS H,
 A.Reg FROM DBO.tblGeo A
 INNER JOIN (
 SELECT DISTINCT PROGRAMTYPE FROM tblGeoTransactions
@@ -3636,8 +3639,8 @@ LEFT JOIN DBO.tblGeoActivations F ON A.Dist = F.Geo
 AND F.Period in ('PYTD') AND F.Lev = 'Dist' AND B.ProgramType = F.ProgramType
 ) A INNER JOIN (
 SELECT DISTINCT B.ProgramType, A.Dist,
-CASE WHEN F.Activations = 0 THEN NULL ELSE D.Activations*1.0/F.Activations -1 END AS F, 
-CASE WHEN E.Transactions = 0 THEN NULL ELSE C.Transactions*1.0/E.Transactions -1 END AS I,
+CASE WHEN F.Activations = 0 THEN NULL ELSE ISNULL(D.Activations,0)*1.0/F.Activations -1 END AS F, 
+CASE WHEN E.Transactions = 0 THEN NULL ELSE ISNULL(C.Transactions,0)*1.0/E.Transactions -1 END AS I,
 A.Reg FROM DBO.tblGeo A
 INNER JOIN (
 SELECT DISTINCT PROGRAMTYPE FROM tblGeoTransactions
@@ -3653,8 +3656,8 @@ AND F.Period in ('P13W') AND F.Lev = 'Dist' AND B.ProgramType = F.ProgramType
 ) B ON A.Geo = B.Dist AND A.ProgramType = B.ProgramType
 INNER JOIN (
 SELECT DISTINCT B.ProgramType, A.Dist,
-CASE WHEN F.Activations = 0 THEN NULL ELSE D.Activations*1.0/F.Activations -1 END AS G, 
-CASE WHEN E.Transactions = 0 THEN NULL ELSE C.Transactions*1.0/E.Transactions -1 END AS J,
+CASE WHEN F.Activations = 0 THEN NULL ELSE ISNULL(D.Activations,0)*1.0/F.Activations -1 END AS G, 
+CASE WHEN E.Transactions = 0 THEN NULL ELSE ISNULL(C.Transactions,0)*1.0/E.Transactions -1 END AS J,
 A.Reg FROM DBO.tblGeo A
 INNER JOIN (
 SELECT DISTINCT PROGRAMTYPE FROM tblGeoTransactions
@@ -3697,8 +3700,8 @@ SELECT 6 AS A, A.Reg AS B, A.Dist AS C, A.DistName AS D, E, F, G, H, I, J, K, L,
 INTO DBO.OutputDistrictDetails
 FROM (
 SELECT DISTINCT B.ProgramType, A.Dist, A.DistName, A.Reg,
-CASE WHEN F.Activations = 0 THEN NULL ELSE D.Activations*1.0/F.Activations -1 END AS G, 
-CASE WHEN E.Transactions = 0 THEN NULL ELSE C.Transactions*1.0/E.Transactions -1 END AS J,
+CASE WHEN F.Activations = 0 THEN NULL ELSE ISNULL(D.Activations,0)*1.0/F.Activations -1 END AS G, 
+CASE WHEN E.Transactions = 0 THEN NULL ELSE ISNULL(C.Transactions,0)*1.0/E.Transactions -1 END AS J,
 A.Nat FROM DBO.tblGeo A
 INNER JOIN (
 SELECT DISTINCT PROGRAMTYPE FROM tblGeoTransactions WHERE PROGRAMTYPE = 'All'
@@ -3713,8 +3716,8 @@ LEFT JOIN DBO.tblGeoActivations F ON A.Dist = F.Geo
 AND F.Period in ('PYTD') AND F.Lev = 'Dist' AND B.ProgramType = F.ProgramType
 ) A INNER JOIN (
 SELECT DISTINCT B.ProgramType, A.Dist,
-CASE WHEN F.Activations = 0 THEN NULL ELSE D.Activations*1.0/F.Activations -1 END AS H, 
-CASE WHEN E.Transactions = 0 THEN NULL ELSE C.Transactions*1.0/E.Transactions -1 END AS K,
+CASE WHEN F.Activations = 0 THEN NULL ELSE ISNULL(D.Activations,0)*1.0/F.Activations -1 END AS H, 
+CASE WHEN E.Transactions = 0 THEN NULL ELSE ISNULL(C.Transactions,0)*1.0/E.Transactions -1 END AS K,
 A.Nat FROM DBO.tblGeo A
 INNER JOIN (
 SELECT DISTINCT PROGRAMTYPE FROM tblGeoTransactions WHERE PROGRAMTYPE = 'All'
@@ -3730,8 +3733,8 @@ AND F.Period in ('P13W') AND F.Lev = 'Dist' AND B.ProgramType = F.ProgramType
 ) B ON A.Dist = B.Dist AND A.ProgramType = B.ProgramType
 INNER JOIN (
 SELECT DISTINCT B.ProgramType, A.Dist,
-CASE WHEN F.Activations = 0 THEN NULL ELSE D.Activations*1.0/F.Activations -1 END AS I, 
-CASE WHEN E.Transactions = 0 THEN NULL ELSE C.Transactions*1.0/E.Transactions -1 END AS L,
+CASE WHEN F.Activations = 0 THEN NULL ELSE ISNULL(D.Activations,0)*1.0/F.Activations -1 END AS I, 
+CASE WHEN E.Transactions = 0 THEN NULL ELSE ISNULL(C.Transactions,0)*1.0/E.Transactions -1 END AS L,
 A.Nat FROM DBO.tblGeo A
 INNER JOIN (
 SELECT DISTINCT PROGRAMTYPE FROM tblGeoTransactions WHERE PROGRAMTYPE = 'All'
@@ -3774,8 +3777,8 @@ SELECT 6 AS A, A.Dist AS B, A.Terr AS C, A.TerrName AS D, E, F, G, H, I, J, K, L
 INTO DBO.OutputSFDetails
 FROM (
 SELECT DISTINCT B.ProgramType, A.Terr, A.TerrName, A.Dist, A.Team,
-CASE WHEN F.Activations = 0 THEN NULL ELSE D.Activations*1.0/F.Activations -1 END AS G, 
-CASE WHEN E.Transactions = 0 THEN NULL ELSE C.Transactions*1.0/E.Transactions -1 END AS J,
+CASE WHEN F.Activations = 0 THEN NULL ELSE ISNULL(D.Activations,0)*1.0/F.Activations -1 END AS G, 
+CASE WHEN E.Transactions = 0 THEN NULL ELSE ISNULL(C.Transactions,0)*1.0/E.Transactions -1 END AS J,
 A.Nat FROM DBO.tblGeo A
 INNER JOIN (
 SELECT DISTINCT PROGRAMTYPE FROM tblGeoTransactions WHERE PROGRAMTYPE = 'All'
@@ -3790,8 +3793,8 @@ LEFT JOIN DBO.tblGeoActivations F ON A.Terr = F.Geo
 AND F.Period in ('PYTD') AND F.Lev = 'Terr' AND B.ProgramType = F.ProgramType
 ) A INNER JOIN (
 SELECT DISTINCT B.ProgramType, A.Terr,
-CASE WHEN F.Activations = 0 THEN NULL ELSE D.Activations*1.0/F.Activations -1 END AS H, 
-CASE WHEN E.Transactions = 0 THEN NULL ELSE C.Transactions*1.0/E.Transactions -1 END AS K,
+CASE WHEN F.Activations = 0 THEN NULL ELSE ISNULL(D.Activations,0)*1.0/F.Activations -1 END AS H, 
+CASE WHEN E.Transactions = 0 THEN NULL ELSE ISNULL(C.Transactions,0)*1.0/E.Transactions -1 END AS K,
 A.Nat FROM DBO.tblGeo A
 INNER JOIN (
 SELECT DISTINCT PROGRAMTYPE FROM tblGeoTransactions WHERE PROGRAMTYPE = 'All'
@@ -3807,8 +3810,8 @@ AND F.Period in ('P13W') AND F.Lev = 'Terr' AND B.ProgramType = F.ProgramType
 ) B ON A.Terr = B.Terr AND A.ProgramType = B.ProgramType
 INNER JOIN (
 SELECT DISTINCT B.ProgramType, A.Terr,
-CASE WHEN F.Activations = 0 THEN NULL ELSE D.Activations*1.0/F.Activations -1 END AS I, 
-CASE WHEN E.Transactions = 0 THEN NULL ELSE C.Transactions*1.0/E.Transactions -1 END AS L,
+CASE WHEN F.Activations = 0 THEN NULL ELSE ISNULL(D.Activations,0)*1.0/F.Activations -1 END AS I, 
+CASE WHEN E.Transactions = 0 THEN NULL ELSE ISNULL(C.Transactions,0)*1.0/E.Transactions -1 END AS L,
 A.Nat FROM DBO.tblGeo A
 INNER JOIN (
 SELECT DISTINCT PROGRAMTYPE FROM tblGeoTransactions WHERE PROGRAMTYPE = 'All'
@@ -3851,8 +3854,8 @@ SELECT 6 AS A, A.Dist AS B, A.Terr AS C, A.TerrName AS D, A.Team AS E, F, G, H, 
 INTO DBO.OutputTerritoryDetails
 FROM (
 SELECT DISTINCT B.ProgramType, A.Terr, A.TerrName, A.Dist, A.Team,
-CASE WHEN F.Activations = 0 THEN NULL ELSE D.Activations*1.0/F.Activations -1 END AS H, 
-CASE WHEN E.Transactions = 0 THEN NULL ELSE C.Transactions*1.0/E.Transactions -1 END AS K,
+CASE WHEN F.Activations = 0 THEN NULL ELSE ISNULL(D.Activations,0)*1.0/F.Activations -1 END AS H, 
+CASE WHEN E.Transactions = 0 THEN NULL ELSE ISNULL(C.Transactions,0)*1.0/E.Transactions -1 END AS K,
 A.Reg FROM DBO.tblGeo A
 INNER JOIN (
 SELECT DISTINCT PROGRAMTYPE FROM tblGeoTransactions WHERE PROGRAMTYPE = 'All'
@@ -3867,8 +3870,8 @@ LEFT JOIN DBO.tblGeoActivations F ON A.Terr = F.Geo
 AND F.Period in ('PYTD') AND F.Lev = 'Terr' AND B.ProgramType = F.ProgramType
 ) A INNER JOIN (
 SELECT DISTINCT B.ProgramType, A.Terr,
-CASE WHEN F.Activations = 0 THEN NULL ELSE D.Activations*1.0/F.Activations -1 END AS I, 
-CASE WHEN E.Transactions = 0 THEN NULL ELSE C.Transactions*1.0/E.Transactions -1 END AS L,
+CASE WHEN F.Activations = 0 THEN NULL ELSE ISNULL(D.Activations,0)*1.0/F.Activations -1 END AS I, 
+CASE WHEN E.Transactions = 0 THEN NULL ELSE ISNULL(C.Transactions,0)*1.0/E.Transactions -1 END AS L,
 A.Nat FROM DBO.tblGeo A
 INNER JOIN (
 SELECT DISTINCT PROGRAMTYPE FROM tblGeoTransactions WHERE PROGRAMTYPE = 'All'
@@ -3884,8 +3887,8 @@ AND F.Period in ('P13W') AND F.Lev = 'Terr' AND B.ProgramType = F.ProgramType
 ) B ON A.Terr = B.Terr AND A.ProgramType = B.ProgramType
 INNER JOIN (
 SELECT DISTINCT B.ProgramType, A.Terr,
-CASE WHEN F.Activations = 0 THEN NULL ELSE D.Activations*1.0/F.Activations -1 END AS J, 
-CASE WHEN E.Transactions = 0 THEN NULL ELSE C.Transactions*1.0/E.Transactions -1 END AS M,
+CASE WHEN F.Activations = 0 THEN NULL ELSE ISNULL(D.Activations,0)*1.0/F.Activations -1 END AS J, 
+CASE WHEN E.Transactions = 0 THEN NULL ELSE ISNULL(C.Transactions,0)*1.0/E.Transactions -1 END AS M,
 A.Reg FROM DBO.tblGeo A
 INNER JOIN (
 SELECT DISTINCT PROGRAMTYPE FROM tblGeoTransactions WHERE PROGRAMTYPE = 'All'
