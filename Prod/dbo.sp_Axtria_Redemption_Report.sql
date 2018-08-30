@@ -6042,106 +6042,106 @@ if object_id('tempTransactionsWithPeriod') is not null
 drop table tempTransactionsWithPeriod
 
 
---UAT OUTPUT
-IF OBJECT_ID('Amgen_Axtrial_Copay_UAT.DBO.V_Output_DB1') IS NOT NULL
-DROP TABLE Amgen_Axtrial_Copay_UAT.DBO.V_Output_DB1
-SELECT * INTO Amgen_Axtrial_Copay_UAT.DBO.V_Output_DB1 
-FROM DBO.V_Output_DB1
+----UAT OUTPUT
+--IF OBJECT_ID('Amgen_Axtrial_Copay_UAT.DBO.V_Output_DB1') IS NOT NULL
+--DROP TABLE Amgen_Axtrial_Copay_UAT.DBO.V_Output_DB1
+--SELECT * INTO Amgen_Axtrial_Copay_UAT.DBO.V_Output_DB1 
+--FROM DBO.V_Output_DB1
 
-IF OBJECT_ID('Amgen_Axtrial_Copay_UAT.DBO.V_Output_DB2') IS NOT NULL
-DROP TABLE Amgen_Axtrial_Copay_UAT.DBO.V_Output_DB2
-SELECT * INTO Amgen_Axtrial_Copay_UAT.DBO.V_Output_DB2 
-FROM DBO.V_Output_DB2
+--IF OBJECT_ID('Amgen_Axtrial_Copay_UAT.DBO.V_Output_DB2') IS NOT NULL
+--DROP TABLE Amgen_Axtrial_Copay_UAT.DBO.V_Output_DB2
+--SELECT * INTO Amgen_Axtrial_Copay_UAT.DBO.V_Output_DB2 
+--FROM DBO.V_Output_DB2
 
-IF OBJECT_ID('Amgen_Axtrial_Copay_UAT.DBO.V_Output_DB3') IS NOT NULL
-DROP TABLE Amgen_Axtrial_Copay_UAT.DBO.V_Output_DB3
-SELECT * INTO Amgen_Axtrial_Copay_UAT.DBO.V_Output_DB3 
-FROM DBO.V_Output_DB3
+--IF OBJECT_ID('Amgen_Axtrial_Copay_UAT.DBO.V_Output_DB3') IS NOT NULL
+--DROP TABLE Amgen_Axtrial_Copay_UAT.DBO.V_Output_DB3
+--SELECT * INTO Amgen_Axtrial_Copay_UAT.DBO.V_Output_DB3 
+--FROM DBO.V_Output_DB3
 
-IF OBJECT_ID('Amgen_Axtrial_Copay_UAT.DBO.V_Output_DB4') IS NOT NULL
-DROP TABLE Amgen_Axtrial_Copay_UAT.DBO.V_Output_DB4
-SELECT * INTO Amgen_Axtrial_Copay_UAT.DBO.V_Output_DB4 
-FROM DBO.V_Output_DB4
+--IF OBJECT_ID('Amgen_Axtrial_Copay_UAT.DBO.V_Output_DB4') IS NOT NULL
+--DROP TABLE Amgen_Axtrial_Copay_UAT.DBO.V_Output_DB4
+--SELECT * INTO Amgen_Axtrial_Copay_UAT.DBO.V_Output_DB4 
+--FROM DBO.V_Output_DB4
 
-IF OBJECT_ID('Amgen_Axtrial_Copay_UAT.DBO.V_Output_DBRank') IS NOT NULL
-DROP TABLE Amgen_Axtrial_Copay_UAT.DBO.V_Output_DBRank
-SELECT * INTO Amgen_Axtrial_Copay_UAT.DBO.V_Output_DBRank 
-FROM DBO.V_Output_DBRank
+--IF OBJECT_ID('Amgen_Axtrial_Copay_UAT.DBO.V_Output_DBRank') IS NOT NULL
+--DROP TABLE Amgen_Axtrial_Copay_UAT.DBO.V_Output_DBRank
+--SELECT * INTO Amgen_Axtrial_Copay_UAT.DBO.V_Output_DBRank 
+--FROM DBO.V_Output_DBRank
 
-IF OBJECT_ID('Amgen_Axtrial_Copay_UAT.DBO.V_Output_DBTopPharmacies') IS NOT NULL
-DROP TABLE Amgen_Axtrial_Copay_UAT.DBO.V_Output_DBTopPharmacies
-SELECT * INTO Amgen_Axtrial_Copay_UAT.DBO.V_Output_DBTopPharmacies 
-FROM DBO.V_Output_DBTopPharmacies
+--IF OBJECT_ID('Amgen_Axtrial_Copay_UAT.DBO.V_Output_DBTopPharmacies') IS NOT NULL
+--DROP TABLE Amgen_Axtrial_Copay_UAT.DBO.V_Output_DBTopPharmacies
+--SELECT * INTO Amgen_Axtrial_Copay_UAT.DBO.V_Output_DBTopPharmacies 
+--FROM DBO.V_Output_DBTopPharmacies
 
-IF OBJECT_ID('Amgen_Axtrial_Copay_UAT.DBO.V_Output_DistrictDetails') IS NOT NULL
-DROP TABLE Amgen_Axtrial_Copay_UAT.DBO.V_Output_DistrictDetails
-SELECT * INTO Amgen_Axtrial_Copay_UAT.DBO.V_Output_DistrictDetails 
-FROM DBO.V_Output_DistrictDetails
+--IF OBJECT_ID('Amgen_Axtrial_Copay_UAT.DBO.V_Output_DistrictDetails') IS NOT NULL
+--DROP TABLE Amgen_Axtrial_Copay_UAT.DBO.V_Output_DistrictDetails
+--SELECT * INTO Amgen_Axtrial_Copay_UAT.DBO.V_Output_DistrictDetails 
+--FROM DBO.V_Output_DistrictDetails
 
-IF OBJECT_ID('Amgen_Axtrial_Copay_UAT.DBO.V_Output_IS11') IS NOT NULL
-DROP TABLE Amgen_Axtrial_Copay_UAT.DBO.V_Output_IS11
-SELECT * INTO Amgen_Axtrial_Copay_UAT.DBO.V_Output_IS11 
-FROM DBO.V_Output_IS11
+--IF OBJECT_ID('Amgen_Axtrial_Copay_UAT.DBO.V_Output_IS11') IS NOT NULL
+--DROP TABLE Amgen_Axtrial_Copay_UAT.DBO.V_Output_IS11
+--SELECT * INTO Amgen_Axtrial_Copay_UAT.DBO.V_Output_IS11 
+--FROM DBO.V_Output_IS11
 
-IF OBJECT_ID('Amgen_Axtrial_Copay_UAT.DBO.V_Output_IS12') IS NOT NULL
-DROP TABLE Amgen_Axtrial_Copay_UAT.DBO.V_Output_IS12
-SELECT * INTO Amgen_Axtrial_Copay_UAT.DBO.V_Output_IS12 
-FROM DBO.V_Output_IS12
+--IF OBJECT_ID('Amgen_Axtrial_Copay_UAT.DBO.V_Output_IS12') IS NOT NULL
+--DROP TABLE Amgen_Axtrial_Copay_UAT.DBO.V_Output_IS12
+--SELECT * INTO Amgen_Axtrial_Copay_UAT.DBO.V_Output_IS12 
+--FROM DBO.V_Output_IS12
 
-IF OBJECT_ID('Amgen_Axtrial_Copay_UAT.DBO.V_Output_IS13') IS NOT NULL
-DROP TABLE Amgen_Axtrial_Copay_UAT.DBO.V_Output_IS13
-SELECT * INTO Amgen_Axtrial_Copay_UAT.DBO.V_Output_IS13 
-FROM DBO.V_Output_IS13
+--IF OBJECT_ID('Amgen_Axtrial_Copay_UAT.DBO.V_Output_IS13') IS NOT NULL
+--DROP TABLE Amgen_Axtrial_Copay_UAT.DBO.V_Output_IS13
+--SELECT * INTO Amgen_Axtrial_Copay_UAT.DBO.V_Output_IS13 
+--FROM DBO.V_Output_IS13
 
-IF OBJECT_ID('Amgen_Axtrial_Copay_UAT.DBO.V_Output_IS1T') IS NOT NULL
-DROP TABLE Amgen_Axtrial_Copay_UAT.DBO.V_Output_IS1T
-SELECT * INTO Amgen_Axtrial_Copay_UAT.DBO.V_Output_IS1T 
-FROM DBO.V_Output_IS1T
+--IF OBJECT_ID('Amgen_Axtrial_Copay_UAT.DBO.V_Output_IS1T') IS NOT NULL
+--DROP TABLE Amgen_Axtrial_Copay_UAT.DBO.V_Output_IS1T
+--SELECT * INTO Amgen_Axtrial_Copay_UAT.DBO.V_Output_IS1T 
+--FROM DBO.V_Output_IS1T
 
-IF OBJECT_ID('Amgen_Axtrial_Copay_UAT.DBO.V_Output_IS21') IS NOT NULL
-DROP TABLE Amgen_Axtrial_Copay_UAT.DBO.V_Output_IS21
-SELECT * INTO Amgen_Axtrial_Copay_UAT.DBO.V_Output_IS21 
-FROM DBO.V_Output_IS21
+--IF OBJECT_ID('Amgen_Axtrial_Copay_UAT.DBO.V_Output_IS21') IS NOT NULL
+--DROP TABLE Amgen_Axtrial_Copay_UAT.DBO.V_Output_IS21
+--SELECT * INTO Amgen_Axtrial_Copay_UAT.DBO.V_Output_IS21 
+--FROM DBO.V_Output_IS21
 
-IF OBJECT_ID('Amgen_Axtrial_Copay_UAT.DBO.V_Output_IS22') IS NOT NULL
-DROP TABLE Amgen_Axtrial_Copay_UAT.DBO.V_Output_IS22
-SELECT * INTO Amgen_Axtrial_Copay_UAT.DBO.V_Output_IS22 
-FROM DBO.V_Output_IS22
+--IF OBJECT_ID('Amgen_Axtrial_Copay_UAT.DBO.V_Output_IS22') IS NOT NULL
+--DROP TABLE Amgen_Axtrial_Copay_UAT.DBO.V_Output_IS22
+--SELECT * INTO Amgen_Axtrial_Copay_UAT.DBO.V_Output_IS22 
+--FROM DBO.V_Output_IS22
 
-IF OBJECT_ID('Amgen_Axtrial_Copay_UAT.DBO.V_Output_IS23') IS NOT NULL
-DROP TABLE Amgen_Axtrial_Copay_UAT.DBO.V_Output_IS23
-SELECT * INTO Amgen_Axtrial_Copay_UAT.DBO.V_Output_IS23 
-FROM DBO.V_Output_IS23
+--IF OBJECT_ID('Amgen_Axtrial_Copay_UAT.DBO.V_Output_IS23') IS NOT NULL
+--DROP TABLE Amgen_Axtrial_Copay_UAT.DBO.V_Output_IS23
+--SELECT * INTO Amgen_Axtrial_Copay_UAT.DBO.V_Output_IS23 
+--FROM DBO.V_Output_IS23
 
-IF OBJECT_ID('Amgen_Axtrial_Copay_UAT.DBO.V_Output_IS2T') IS NOT NULL
-DROP TABLE Amgen_Axtrial_Copay_UAT.DBO.V_Output_IS2T
-SELECT * INTO Amgen_Axtrial_Copay_UAT.DBO.V_Output_IS2T 
-FROM DBO.V_Output_IS2T
+--IF OBJECT_ID('Amgen_Axtrial_Copay_UAT.DBO.V_Output_IS2T') IS NOT NULL
+--DROP TABLE Amgen_Axtrial_Copay_UAT.DBO.V_Output_IS2T
+--SELECT * INTO Amgen_Axtrial_Copay_UAT.DBO.V_Output_IS2T 
+--FROM DBO.V_Output_IS2T
 
-IF OBJECT_ID('Amgen_Axtrial_Copay_UAT.DBO.V_Output_PhysicianDetails') IS NOT NULL
-DROP TABLE Amgen_Axtrial_Copay_UAT.DBO.V_Output_PhysicianDetails
-SELECT * INTO Amgen_Axtrial_Copay_UAT.DBO.V_Output_PhysicianDetails 
-FROM DBO.V_Output_PhysicianDetails
+--IF OBJECT_ID('Amgen_Axtrial_Copay_UAT.DBO.V_Output_PhysicianDetails') IS NOT NULL
+--DROP TABLE Amgen_Axtrial_Copay_UAT.DBO.V_Output_PhysicianDetails
+--SELECT * INTO Amgen_Axtrial_Copay_UAT.DBO.V_Output_PhysicianDetails 
+--FROM DBO.V_Output_PhysicianDetails
 
-IF OBJECT_ID('Amgen_Axtrial_Copay_UAT.DBO.V_Output_TerritoryDetails') IS NOT NULL
-DROP TABLE Amgen_Axtrial_Copay_UAT.DBO.V_Output_TerritoryDetails
-SELECT * INTO Amgen_Axtrial_Copay_UAT.DBO.V_Output_TerritoryDetails 
-FROM DBO.V_Output_TerritoryDetails
+--IF OBJECT_ID('Amgen_Axtrial_Copay_UAT.DBO.V_Output_TerritoryDetails') IS NOT NULL
+--DROP TABLE Amgen_Axtrial_Copay_UAT.DBO.V_Output_TerritoryDetails
+--SELECT * INTO Amgen_Axtrial_Copay_UAT.DBO.V_Output_TerritoryDetails 
+--FROM DBO.V_Output_TerritoryDetails
 
-IF OBJECT_ID('Amgen_Axtrial_Copay_UAT.DBO.V_OutputGeo') IS NOT NULL
-DROP TABLE Amgen_Axtrial_Copay_UAT.DBO.V_OutputGeo
-SELECT * INTO Amgen_Axtrial_Copay_UAT.DBO.V_OutputGeo 
-FROM DBO.V_OutputGeo
+--IF OBJECT_ID('Amgen_Axtrial_Copay_UAT.DBO.V_OutputGeo') IS NOT NULL
+--DROP TABLE Amgen_Axtrial_Copay_UAT.DBO.V_OutputGeo
+--SELECT * INTO Amgen_Axtrial_Copay_UAT.DBO.V_OutputGeo 
+--FROM DBO.V_OutputGeo
 
-IF OBJECT_ID('Amgen_Axtrial_Copay_UAT.DBO.V_tblConfig') IS NOT NULL
-DROP TABLE Amgen_Axtrial_Copay_UAT.DBO.V_tblConfig
-SELECT * INTO Amgen_Axtrial_Copay_UAT.DBO.V_tblConfig 
-FROM DBO.V_tblConfig
+--IF OBJECT_ID('Amgen_Axtrial_Copay_UAT.DBO.V_tblConfig') IS NOT NULL
+--DROP TABLE Amgen_Axtrial_Copay_UAT.DBO.V_tblConfig
+--SELECT * INTO Amgen_Axtrial_Copay_UAT.DBO.V_tblConfig 
+--FROM DBO.V_tblConfig
 
-IF OBJECT_ID('Amgen_Axtrial_Copay_UAT.DBO.V_tblOption') IS NOT NULL
-DROP TABLE Amgen_Axtrial_Copay_UAT.DBO.V_tblOption
-SELECT * INTO Amgen_Axtrial_Copay_UAT.DBO.V_tblOption 
-FROM DBO.V_tblOption
+--IF OBJECT_ID('Amgen_Axtrial_Copay_UAT.DBO.V_tblOption') IS NOT NULL
+--DROP TABLE Amgen_Axtrial_Copay_UAT.DBO.V_tblOption
+--SELECT * INTO Amgen_Axtrial_Copay_UAT.DBO.V_tblOption 
+--FROM DBO.V_tblOption
 
 
 GO
